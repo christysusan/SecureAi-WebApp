@@ -116,7 +116,7 @@ export default function HomePage() {
           </motion.div>
         </motion.div>
 
-        {/* Core Modules removed per request */}
+       
 
         {/* Technical Features */}
         <motion.div 
@@ -164,7 +164,7 @@ export default function HomePage() {
             <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
               <p className="mb-4 leading-relaxed text-muted-foreground">
                 This security analysis platform represents a comprehensive approach to automated vulnerability detection, 
-                combining traditional static analysis techniques with modern machine learning algorithms. The project 
+                combining traditional static analysis techniques . The project 
                 demonstrates advanced software engineering principles, cybersecurity expertise, and research-driven development.
               </p>
               <div className="grid gap-6 text-sm md:grid-cols-3">
@@ -172,7 +172,7 @@ export default function HomePage() {
                   <h4 className="mb-2 font-semibold text-brand">Research Areas</h4>
                   <ul className="space-y-1 text-muted-foreground">
                     <li>• Static Code Analysis</li>
-                    <li>• Machine Learning Security</li>
+                    <li>• AI Security</li>
                     <li>• Vulnerability Assessment</li>
                     <li>• Educational Gamification</li>
                   </ul>
