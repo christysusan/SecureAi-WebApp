@@ -9,11 +9,14 @@ import { ThemeToggle } from "@/components/theme/theme-toggle"
 import { cn } from "@/lib/utils"
 
 export function Header() {
-  const [time, setTime] = useState<string>(new Date().toLocaleTimeString())
+  // Initialize empty to avoid SSR/client mismatch; fill on client
+  const [time, setTime] = useState<string>("")
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => {
+    // set immediately, then tick every second on client only
+    setTime(new Date().toLocaleTimeString())
     const id = setInterval(() => setTime(new Date().toLocaleTimeString()), 1000)
     return () => clearInterval(id)
   }, [])
@@ -80,7 +83,7 @@ export function Header() {
               {isMobileNavOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
             <ThemeToggle />
-            <div className="hidden whitespace-nowrap font-mono text-xs text-foreground/70 sm:block">{time}</div>
+            <div className="hidden whitespace-nowrap font-mono text-xs text-foreground/70 sm:block">{time || "--:--"}</div>
           </div>
         </div>
       </div>
@@ -121,7 +124,7 @@ export function Header() {
                 })}
                 <div className="mt-2 rounded-xl border border-border bg-surface/80 p-4 text-xs text-foreground/70">
                   <p className="font-semibold text-foreground">Current time</p>
-                  <p className="mt-1 font-mono text-sm">{time}</p>
+                  <p className="mt-1 font-mono text-sm">{time || "--:--"}</p>
                 </div>
               </div>
             </motion.div>

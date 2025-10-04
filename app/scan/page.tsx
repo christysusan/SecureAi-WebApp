@@ -87,6 +87,174 @@ interface Detector {
   test: (ctx: DetectorContext) => boolean
 }
 
+function GitHubSecretsScan() {
+  const [repoUrl, setRepoUrl] = useState("")
+  const [includeHistory, setIncludeHistory] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [results, setResults] = useState<Array<{ file: string; line: number | null; rule: string; description: string; match?: string; severity?: string }>>([])
+  const [showInfo, setShowInfo] = useState(false)
+  const [hasScanned, setHasScanned] = useState(false)
+  const [usedGitleaks, setUsedGitleaks] = useState<boolean | null>(null)
+  const [durationMs, setDurationMs] = useState<number | null>(null)
+
+  const runScan = async () => {
+    setError(null)
+    setLoading(true)
+    setResults([])
+    setHasScanned(false)
+    setUsedGitleaks(null)
+    setDurationMs(null)
+    try {
+      const start = Date.now()
+      const res = await fetch("/api/secrets/scan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ repoUrl, includeHistory }),
+      })
+      const data = await res.json()
+      if (!res.ok || data?.error) {
+        throw new Error(data?.message || "Secrets scan failed")
+      }
+      setResults(data.findings || [])
+      setUsedGitleaks(Boolean(data.usedGitleaks))
+      setDurationMs(Date.now() - start)
+      setHasScanned(true)
+    } catch (e: any) {
+      setError(e?.message || String(e))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const download = (type: "json" | "csv" | "sarif") => {
+    const a = document.createElement("a")
+    let blob: Blob
+    if (type === "json") {
+      blob = new Blob([JSON.stringify({ findings: results }, null, 2)], { type: "application/json" })
+      a.download = "secrets-findings.json"
+    } else if (type === "csv") {
+      const header = "file,line,rule,description,match,severity\n"
+      const rows = results.map(r => [r.file, r.line ?? "", r.rule, r.description, r.match ?? "", r.severity ?? ""].map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n")
+      blob = new Blob([header + rows], { type: "text/csv" })
+      a.download = "secrets-findings.csv"
+    } else {
+      const sarif = {
+        version: "2.1.0",
+        $schema: "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+        runs: [
+          {
+            tool: { driver: { name: "SecureAI Secrets Scan", rules: [] as any[] } },
+            results: results.map(r => ({
+              ruleId: r.rule,
+              message: { text: r.description },
+              locations: [{
+                physicalLocation: {
+                  artifactLocation: { uri: r.file },
+                  region: { startLine: r.line ?? 1 }
+                }
+              }]
+            }))
+          }
+        ]
+      }
+      blob = new Blob([JSON.stringify(sarif, null, 2)], { type: "application/sarif+json" })
+      a.download = "secrets-findings.sarif"
+    }
+    a.href = URL.createObjectURL(blob)
+    a.click()
+    URL.revokeObjectURL(a.href)
+  }
+
+  return (
+    <div className="space-y-3 rounded-lg border border-border/60 bg-card/60 p-3">
+      <div className="flex items-center justify-between gap-2">
+        <label className="text-sm font-semibold text-foreground">GitHub Secrets Scan</label>
+        <button onClick={() => setShowInfo(true)} className="text-xs text-brand underline underline-offset-2">What’s this?</button>
+      </div>
+      <label className="text-xs font-medium text-foreground/80">Repository URL</label>
+      <input
+        type="url"
+        placeholder="https://github.com/owner/repo"
+        value={repoUrl}
+        onChange={(e) => setRepoUrl(e.target.value)}
+        className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-brand/40"
+      />
+      <label className="flex items-center gap-2 text-xs text-muted-foreground">
+        <input type="checkbox" checked={includeHistory} onChange={(e) => setIncludeHistory(e.target.checked)} />
+        Scan recent commit history (slower, finds removed secrets)
+      </label>
+      <motion.button
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        onClick={runScan}
+        disabled={loading || !repoUrl}
+        className="flex items-center justify-center gap-2 rounded-lg border border-brand/40 bg-brand/10 px-4 py-2 text-sm font-medium text-brand transition-colors hover:bg-brand/15 disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {loading ? "Scanning…" : "Run Secrets Scan with Gitleaks"}
+      </motion.button>
+      {results.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          <button onClick={() => download("json")} className="rounded border border-border bg-surface px-2 py-1 text-xs">Download JSON</button>
+          <button onClick={() => download("csv")} className="rounded border border-border bg-surface px-2 py-1 text-xs">Download CSV</button>
+          <button onClick={() => download("sarif")} className="rounded border border-border bg-surface px-2 py-1 text-xs">Download SARIF</button>
+        </div>
+      )}
+      {error && <div className="rounded border border-red-300 bg-red-50 p-2 text-xs text-red-700">{error}</div>}
+      {hasScanned && !error && results.length === 0 && (
+        <div className="rounded border border-green-300 bg-green-50 p-2 text-xs text-green-700">
+          No secrets found in the scanned scope{includeHistory ? " (including recent history)" : " (shallow scan)"}.
+          {usedGitleaks && (
+            <span className="ml-1 text-green-800/80">Scanner: Gitleaks</span>
+          )}
+          {typeof durationMs === "number" && (
+            <span className="ml-1 text-green-800/80">• Duration: {Math.max(1, Math.round(durationMs/1000))}s</span>
+          )}
+        </div>
+      )}
+      {hasScanned && !error && results.length > 0 && (
+        <div className="rounded border border-border/60 bg-background p-2 text-xs text-muted-foreground">
+          <span className="text-foreground font-medium">{results.length}</span> findings{usedGitleaks ? " • Scanner: Gitleaks" : ""}
+          {typeof durationMs === "number" && <span> • Duration: {Math.max(1, Math.round(durationMs/1000))}s</span>}
+        </div>
+      )}
+      {results.length > 0 && (
+        <div className="mt-2 max-h-60 overflow-auto rounded-lg border border-border/60 bg-background p-2">
+          <div className="mb-2 text-xs font-semibold text-foreground">Findings ({results.length})</div>
+          <ul className="space-y-1 text-xs text-muted-foreground">
+            {results.slice(0, 50).map((f, i) => (
+              <li key={i} className="rounded border border-border/40 bg-background/40 p-2">
+                <div className="font-mono text-[11px] text-foreground">{f.file}:{f.line ?? "?"}</div>
+                <div className="text-[11px]">{f.rule} — {f.description}</div>
+                {f.match && <div className="text-[11px] text-brand">match: {f.match}</div>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Info Modal */}
+      {showInfo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="max-w-lg rounded-lg border border-border bg-card p-4 text-sm text-foreground shadow-xl">
+            <div className="mb-2 font-semibold">Shallow scan vs. history scan</div>
+            <ul className="mb-2 list-disc space-y-1 pl-5 text-muted-foreground">
+              <li><span className="font-medium text-foreground">Shallow scan</span>: Scans current repository files only (fast). Best for quick checks.</li>
+              <li><span className="font-medium text-foreground">History scan</span>: Also looks through recent commit history (slower). Finds secrets that were committed and later removed.</li>
+            </ul>
+            <div className="mb-2 text-xs text-muted-foreground">
+              Estimated runtime: shallow (seconds), history (tens of seconds to minutes) depending on repo size.
+            </div>
+            <div className="text-right">
+              <button onClick={() => setShowInfo(false)} className="rounded border border-border bg-surface px-3 py-1 text-xs">Close</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 const detectors: Detector[] = [
   {
     id: "dynamic-eval",
@@ -701,6 +869,9 @@ def store_session(resp):
                     <Play className="h-4 w-4" />
                     Run demo scan
                   </motion.button>
+
+                  {/* Secrets scan from GitHub URL */}
+                  <GitHubSecretsScan />
                 </div>
 
                 <AnimatePresence>
