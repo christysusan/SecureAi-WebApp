@@ -93,8 +93,8 @@ export default function HomePage() {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="mx-auto mb-8 max-w-4xl text-xl leading-relaxed text-muted-foreground md:text-2xl"
           >
-            Advanced Static Analysis Security Scanner with Machine Learning-Enhanced 
-            Vulnerability Detection and Comprehensive Educational Framework
+            Scan your code for security flaws instantly with regex and AI-powered analysis.
+            Dive into interactive cybersecurity games and learning experiences.    
           </motion.p>
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -103,7 +103,7 @@ export default function HomePage() {
             className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground"
           >
             <span className="rounded-full border border-brand/40 bg-brand/15 px-4 py-2 font-semibold text-brand">
-              Research Project v2.1.0
+              Research Project v1.1.0
             </span>
             <span className="flex items-center gap-2">
               <Database className="h-4 w-4 text-brand" />
@@ -111,7 +111,7 @@ export default function HomePage() {
             </span>
             <span className="flex items-center gap-2">
               <Brain className="h-4 w-4 text-brand" />
-              ML-Enhanced Detection
+              AI-Enhanced Detection
             </span>
           </motion.div>
         </motion.div>
