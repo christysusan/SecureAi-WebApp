@@ -47,12 +47,7 @@ const technicalFeatures = [
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
-  const [showTuiBanner, setShowTuiBanner] = useState(true);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
+  useEffect(() => { setMounted(true); }, []);
   if (!mounted) {
     return (
       <>
@@ -71,47 +66,11 @@ export default function HomePage() {
       </>
     );
   }
-
   return (
     <>
       <Header />
       <main className="relative mx-auto max-w-7xl px-4 py-8 text-foreground">
         <BackgroundElements />
-        
-        {/* TUI Tool Promotion Banner */}
-        {showTuiBanner && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="fixed inset-x-4 top-4 z-50 w-full sm:inset-x-auto sm:right-4 sm:w-auto sm:max-w-sm"
-          >
-            <div className="relative rounded-xl border border-border bg-card p-4 shadow-2xl backdrop-blur-sm">
-              <button
-                type="button"
-                onClick={() => setShowTuiBanner(false)}
-                className="absolute right-2 top-2 rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted/30 hover:text-foreground"
-                aria-label="Close TUI announcement"
-              >
-                <X className="w-4 h-4" />
-              </button>
-              <div className="mb-2 flex items-center gap-3 pr-6">
-                <Terminal className="h-5 w-5 text-brand" />
-                <span className="text-sm font-semibold text-brand">SecureAI TUI</span>
-              </div>
-              <p className="mb-3 text-xs text-muted-foreground">
-                Launch the terminal interface locally for advanced scans, AI assessments, and offline workflows.
-              </p>
-              <Link 
-                href="/docs/tui" 
-                className="inline-flex items-center gap-2 rounded bg-brand px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-brand/90"
-              >
-                View TUI Quickstart
-                <ChevronRight className="h-3 w-3" />
-              </Link>
-            </div>
-          </motion.div>
-        )}
 
         {/* Hero Section */}
         <motion.div 
@@ -224,7 +183,7 @@ export default function HomePage() {
                     <li>• Python AST Parsing</li>
                     <li>• React/Next.js Frontend</li>
                     <li>• SQLite Database</li>
-                    <li>• TUI Implementation</li>
+                    {/* TUI Implementation removed */}
                   </ul>
                 </div>
                 <div>

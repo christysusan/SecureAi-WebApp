@@ -20,13 +20,7 @@ export default function DocsPage() {
             >
               <ArrowLeft className="h-4 w-4" />
               Back to dashboard
-            </Link>
-            <Link
-              href="/docs/tui"
-              className="inline-flex items-center gap-2 rounded border border-brand/30 bg-brand/10 px-3 py-1.5 text-xs font-medium text-brand transition-colors hover:bg-brand/15"
-            >
-              <Terminal className="h-4 w-4" />
-              TUI Quickstart Guide
+            {/* TUI Quickstart Guide link removed */}
             </Link>
           </div>
         {/* Header */}
@@ -98,30 +92,7 @@ export default function DocsPage() {
           </div>
         </section>
 
-        {/* TUI Tool Integration */}
-        <section className={sectionBase}>
-          <div className="mb-4 flex items-center gap-2 text-2xl font-semibold text-brand">
-            <Code className="h-6 w-6" />
-            <span>TUI Tool Integration</span>
-          </div>
-          <div className="space-y-4 text-muted-foreground">
-            <p>
-              Our Text User Interface (TUI) tool represents the core command-line implementation 
-              of the security analysis engine. This web interface provides configuration and 
-              monitoring capabilities for the underlying TUI system.
-            </p>
-            <div className="rounded-lg border border-border bg-surface p-4">
-              <h4 className="mb-2 font-semibold text-brand">Key Features</h4>
-              <ul className="space-y-1 text-sm text-muted-foreground/90">
-                <li>• Interactive vulnerability scanning with real-time feedback</li>
-                <li>• Multiple output formats (JSON, SARIF, HTML, Console)</li>
-                <li>• Configurable detection rules and severity thresholds</li>
-                <li>• AI-enhanced analysis with provider flexibility</li>
-                <li>• Performance profiling and trend analysis</li>
-              </ul>
-            </div>
-          </div>
-        </section>
+        {/* TUI Tool Integration section removed */}
 
         {/* Configuration Guide */}
         <section className={sectionBase}>
