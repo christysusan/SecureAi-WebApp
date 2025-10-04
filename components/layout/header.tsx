@@ -42,7 +42,7 @@ export function Header() {
     { href: "/dependency-scanner", label: "Dependency Scanner" },
     { href: "/games", label: "Games" },
     { href: "/config", label: "Config" },
-    { href: "/docs", label: "Docs" },
+    // { href: "/docs", label: "Docs" },
   ]
 
   return (
