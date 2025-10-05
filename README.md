@@ -1,9 +1,6 @@
 
 # SecureAI-Code Web
 
-<p align="center">
-	<img src="public/placeholder-logo.png" alt="SecureAI Logo" width="120" />
-</p>
 
 ---
 
