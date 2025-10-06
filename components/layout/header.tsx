@@ -43,7 +43,7 @@ export function Header() {
     { href: "/ai-assess", label: "AI Assess" },
     { href: "/pass-strength", label: "Pass Strength" },
     { href: "/dependency-scanner", label: "Dependency Scanner" },
-    { href: "/games", label: "Games" },
+    { href: "/news", label: "Security News" },
     { href: "/config", label: "Config" },
     // { href: "/docs", label: "Docs" },
   ]
@@ -53,7 +53,7 @@ export function Header() {
       <div className="mx-auto max-w-6xl px-4">
         <div className="flex h-14 items-center justify-between gap-4">
           <Link href="/" className="flex-shrink-0 font-mono text-brand uppercase tracking-wider">
-            {"┌ SecureAI-Code Web ┐"}
+            {"┌ OneStop-CYworld ┐"}
           </Link>
           <nav className="hidden flex-1 items-center justify-center gap-6 md:flex">
             {nav.map((item) => {

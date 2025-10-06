@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react"
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode, type ReactElement } from "react"
 
 type Theme = "light" | "dark"
 
@@ -17,7 +17,7 @@ function getPreferredTheme(): Theme {
     return "light"
   }
 
-  const stored = window.localStorage.getItem("secureai-theme") as Theme | null
+  const stored = window.localStorage.getItem("onestopcyworld-theme") as Theme | null
   if (stored === "light" || stored === "dark") {
     return stored
   }
@@ -36,20 +36,20 @@ function applyTheme(theme: Theme) {
   root.setAttribute("data-theme", theme)
 }
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export function ThemeProvider({ children }: { children: ReactNode }): ReactElement {
   const [theme, setThemeState] = useState<Theme>(() => getPreferredTheme())
 
   useEffect(() => {
     applyTheme(theme)
     if (typeof window !== "undefined") {
-      window.localStorage.setItem("secureai-theme", theme)
+      window.localStorage.setItem("onestopcyworld-theme", theme)
     }
   }, [theme])
 
   useEffect(() => {
     if (typeof window === "undefined") return
     const listener = (event: MediaQueryListEvent) => {
-      if (!window.localStorage.getItem("secureai-theme")) {
+      if (!window.localStorage.getItem("onestopcyworld-theme")) {
         setThemeState(event.matches ? "dark" : "light")
       }
     }

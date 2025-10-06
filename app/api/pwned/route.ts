@@ -21,7 +21,7 @@ export async function GET(req: Request) {
     const response = await fetch(`${HIBP_ENDPOINT}${prefixParam}`, {
       method: "GET",
       headers: {
-        "User-Agent": "SecureAI-Code/1.0 (+https://github.com/Yampss/CHRISTY-PROJECT)",
+  "User-Agent": "OneStop-CYworld/1.0 (+https://github.com/Yampss/CHRISTY-PROJECT)",
         "Add-Padding": "true",
       },
       cache: "no-store",

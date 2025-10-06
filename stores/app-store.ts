@@ -13,7 +13,6 @@ export const useAppStore = create<AppState>((set) => ({
     model: "Gemini 2.5",
     analysisDepth: "basic",
   },
-  games: {},
   theme: "dark",
   sidebarOpen: false,
   currentPage: "/",

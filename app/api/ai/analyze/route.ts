@@ -172,7 +172,7 @@ const buildPrompt = (fileName: string, code: string, confidence: number | undefi
   const guardrail = confidence ? `The user selected an analysis confidence threshold of ${confidence}. Honor this by being precise.` : ""
 
   if (mode === "dependencies") {
-    return `You are SecureAI, a dependency remediation assistant. You will receive JSON describing dependencies, their versions, and known vulnerabilities (including CVE identifiers, severity, and available fixes).
+  return `You are OneStop-CYworld, a dependency remediation assistant. You will receive JSON describing dependencies, their versions, and known vulnerabilities (including CVE identifiers, severity, and available fixes).
 Respond with JSON only using the exact shape:
 {
   "summary": string,
@@ -200,7 +200,7 @@ ${code}
 </json>`
   }
 
-  return `You are SecureAI, a security auditing assistant. Assess the provided code for vulnerabilities, insecure patterns, or design flaws.
+  return `You are OneStop-CYworld, a security auditing assistant. Assess the provided code for vulnerabilities, insecure patterns, or design flaws.
 Output JSON only with the following shape:
 {
   "summary": string,
@@ -243,7 +243,7 @@ const callOpenAI = async (params: { apiKey: string; prompt: string; model: strin
       messages: [
         {
           role: "system",
-          content: "You are SecureAI, a precise application security analyst.",
+          content: "You are OneStop-CYworld, a precise application security analyst.",
         },
         {
           role: "user",
@@ -286,7 +286,7 @@ const callAnthropic = async (params: { apiKey: string; prompt: string; model: st
       model: params.model,
       max_tokens: 1024,
       temperature: 0,
-      system: "You are SecureAI, a precise application security analyst. Respond with JSON only.",
+  system: "You are OneStop-CYworld, a precise application security analyst. Respond with JSON only.",
       messages: [
         {
           role: "user",

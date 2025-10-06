@@ -38,6 +38,23 @@ type Language =
   | "rust"
   | "swift"
   | "typescript"
+  | "kotlin"
+  | "scala"
+  | "perl"
+  | "lua"
+  | "shell"
+  | "powershell"
+  | "batch"
+  | "sql"
+  | "xml"
+  | "html"
+  | "css"
+  | "json"
+  | "yaml"
+  | "toml"
+  | "env"
+  | "terraform"
+  | "docker"
   | "generic"
 
 interface CodeFrameLine {
@@ -144,7 +161,7 @@ function GitHubSecretsScan() {
         $schema: "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
         runs: [
           {
-            tool: { driver: { name: "SecureAI Secrets Scan", rules: [] as any[] } },
+            tool: { driver: { name: "OneStop-CYworld Secrets Scan", rules: [] as any[] } },
             results: results.map(r => ({
               ruleId: r.rule,
               message: { text: r.description },
@@ -450,6 +467,148 @@ const detectors: Detector[] = [
     test: ({ line }) =>
       /(res\.cookie|cookies\.set|Set-Cookie|set_cookie\s*\()/i.test(line) && /secure\s*[:=]\s*(false|0)/i.test(line),
   },
+  {
+    id: "jwt-none-alg",
+    type: "JWT Algorithm None",
+    severity: "high",
+    rule: "CWE-345",
+    message: "JWT configured with 'none' algorithm disables signature verification.",
+    remediation: "Use a secure signing algorithm like HS256, RS256, or ES256 for JWT tokens.",
+    appliesTo: ["javascript", "typescript", "python", "java", "csharp", "php"],
+    test: ({ line }) => /algorithm\s*[:=]\s*["']none["']/i.test(line) && /jwt|token/i.test(line),
+  },
+  {
+    id: "xml-external-entity",
+    type: "XML External Entity",
+    severity: "high",
+    rule: "CWE-611",
+    message: "XML parser may be vulnerable to XXE attacks if external entities are enabled.",
+    remediation: "Disable external entity processing and DTD validation in XML parsers.",
+    appliesTo: ["java", "csharp", "python", "php"],
+    test: ({ line }) => 
+      /(DocumentBuilder|XMLReader|XmlReader|lxml\.etree|SimpleXMLElement)/i.test(line) && 
+      !/setFeature.*EXTERNAL_GENERAL_ENTITIES.*false|disable_entities|XMLParser\(resolve_entities=False\)/i.test(line),
+  },
+  {
+    id: "ldap-injection",
+    type: "LDAP Injection",
+    severity: "high",
+    rule: "CWE-90",
+    message: "LDAP query constructed with unsanitized user input.",
+    remediation: "Use parameterized LDAP queries or escape special LDAP characters in user input.",
+    appliesTo: ["java", "csharp", "python", "php"],
+    test: ({ line }) => 
+      /ldap.*search|LdapConnection|DirectoryEntry/i.test(line) && 
+      /(req\.|request\.|params\[|\$_(GET|POST)|input\(|ctx\.)/i.test(line),
+  },
+  {
+    id: "nosql-injection",
+    type: "NoSQL Injection",
+    severity: "high",
+    rule: "CWE-943",
+    message: "NoSQL query vulnerable to injection via unsanitized user input.",
+    remediation: "Use parameterized queries, validate input types, and sanitize user data before database operations.",
+    appliesTo: ["javascript", "typescript", "python", "php", "java"],
+    test: ({ line }) => 
+      /(find\(|findOne\(|aggregate\(|match\s*:|where\s*:)/i.test(line) && 
+      /(req\.|request\.|params\[|\$_(GET|POST)|input\(|ctx\.)/i.test(line) &&
+      /(mongo|mongoose|pymongo)/i.test(line),
+  },
+  {
+    id: "open-redirect",
+    type: "Open Redirect",
+    severity: "medium",
+    rule: "CWE-601",
+    message: "Application redirects to user-controlled URL without validation.",
+    remediation: "Validate redirect URLs against an allowlist or use relative URLs only.",
+    appliesTo: ["javascript", "typescript", "python", "php", "java", "csharp"],
+    test: ({ line }) => 
+      /(redirect\(|location\s*=|Location:|sendRedirect|Response\.Redirect)/i.test(line) && 
+      /(req\.|request\.|params\[|\$_(GET|POST)|input\(|ctx\.)/i.test(line),
+  },
+  {
+    id: "file-upload-unrestricted",
+    type: "Unrestricted File Upload",
+    severity: "high",
+    rule: "CWE-434",
+    message: "File upload without proper extension or content type validation.",
+    remediation: "Validate file extensions, MIME types, and scan uploaded files for malicious content.",
+    appliesTo: ["javascript", "typescript", "python", "php", "java", "csharp"],
+    test: ({ line }) => 
+      /(multer|express-fileupload|upload|move_uploaded_file|Files\.SaveAs)/i.test(line) && 
+      !/\.(pdf|jpg|jpeg|png|gif|txt|csv)["']|allowedTypes|ALLOWED_EXTENSIONS|contentType.*check/i.test(line),
+  },
+  {
+    id: "crypto-weak-key",
+    type: "Weak Cryptographic Key",
+    severity: "medium",
+    rule: "CWE-326",
+    message: "Cryptographic operation uses a weak or short key length.",
+    remediation: "Use key lengths of at least 2048 bits for RSA, 256 bits for AES, or 256 bits for ECDSA.",
+    appliesTo: ["javascript", "typescript", "python", "java", "csharp"],
+    test: ({ line }) => 
+      /(generateKeyPair|RSA.*1024|AES.*128|DES[^C]|RC4|keySize.*1024)/i.test(line),
+  },
+  {
+    id: "regex-dos",
+    type: "Regular Expression DoS",
+    severity: "medium", 
+    rule: "CWE-1333",
+    message: "Complex regex pattern may be vulnerable to ReDoS attacks.",
+    remediation: "Avoid nested quantifiers and alternation with overlapping patterns in user-facing regex.",
+    appliesTo: ["javascript", "typescript", "python", "php", "java", "csharp"],
+    test: ({ line }) => 
+      /new RegExp\(|re\.compile\(|Pattern\.compile\(|preg_match\(/i.test(line) && 
+      /(\(.*\+.*\)|(\*.*\+)|(\+.*\*)|(\{.*,.*\}.*\+))/.test(line),
+  },
+  {
+    id: "template-injection",
+    type: "Server-Side Template Injection",
+    severity: "critical",
+    rule: "CWE-94",
+    message: "Template engine processes user input without proper sanitization.",
+    remediation: "Use sandboxed template environments and avoid rendering user-controlled template strings.",
+    appliesTo: ["python", "java", "javascript", "typescript", "php"],
+    test: ({ line }) => 
+      /(render_template_string|Template\(|Velocity\.|Freemarker|template\.render|eval\(|compile\()/i.test(line) && 
+      /(req\.|request\.|params\[|\$_(GET|POST)|input\(|ctx\.)/i.test(line),
+  },
+  {
+    id: "mass-assignment",
+    type: "Mass Assignment",
+    severity: "medium",
+    rule: "CWE-915",
+    message: "Object properties assigned directly from user input without filtering.",
+    remediation: "Use allowlists to specify which properties can be mass-assigned or use explicit assignment.",
+    appliesTo: ["javascript", "typescript", "python", "ruby", "php"],
+    test: ({ line }) => 
+      /(Object\.assign|spread.*req\.|\.update\(req\.|\.save\(req\.|strong_parameters)/i.test(line) && 
+      !/permit\(|allowed_fields|whitelist/i.test(line),
+  },
+  {
+    id: "information-disclosure",
+    type: "Information Disclosure",
+    severity: "low",
+    rule: "CWE-200",
+    message: "Potentially sensitive information exposed in logs or error messages.",
+    remediation: "Avoid logging sensitive data and use generic error messages for user-facing errors.",
+    appliesTo: ["generic"],
+    test: ({ line }) => 
+      /(console\.log|print\(|logger\.|error\(|exception\()/i.test(line) && 
+      /(password|secret|token|api_key|private_key|credit_card)/i.test(line),
+  },
+  {
+    id: "insecure-direct-object-reference",
+    type: "Insecure Direct Object Reference",
+    severity: "medium",
+    rule: "CWE-639",
+    message: "Direct object reference without authorization check detected.",
+    remediation: "Implement proper authorization checks before accessing objects by ID.",
+    appliesTo: ["javascript", "typescript", "python", "php", "java"],
+    test: ({ line }) => 
+      /(findById|get.*ById|SELECT.*WHERE.*id|\/api\/.*\/\$\{|\/\$\{id\})/i.test(line) && 
+      !/auth|permission|check|verify|authorize/i.test(line),
+  },
 ]
 
 const coverageAreas: Array<{ title: string; bullets: string[] }> = [
@@ -457,40 +616,45 @@ const coverageAreas: Array<{ title: string; bullets: string[] }> = [
     title: "Injection safeguards",
     bullets: [
       "Dynamic code execution (eval) and template injection",
-      "SQL string concatenation vulnerabilities",
+      "SQL/NoSQL/LDAP string concatenation vulnerabilities",
       "OS command execution primitives",
+      "XML External Entity (XXE) attacks",
     ],
   },
   {
-    title: "Secrets & auth",
+    title: "Secrets & authentication",
     bullets: [
       "Hardcoded credentials and API keys",
-      "AWS-style access tokens",
+      "AWS-style access tokens and JWT 'none' algorithms",
       "Debug flags and insecure cookie attributes",
+      "Information disclosure in logs and errors",
     ],
   },
   {
-    title: "Web entry points",
+    title: "Web security & access control",
     bullets: [
-      "DOM XSS sinks (innerHTML, template literals)",
-      "Wildcard CORS policies",
+      "DOM XSS sinks and server-side template injection",
+      "Wildcard CORS policies and open redirects",
       "Server-side request forgery patterns",
+      "Insecure direct object references and mass assignment",
     ],
   },
   {
-    title: "Data transport",
+    title: "Data transport & crypto",
     bullets: [
       "Plain HTTP endpoints in production code",
       "TLS verification disabled on HTTP clients",
-      "Weak randomness used for tokens or secrets",
+      "Weak randomness and cryptographic key lengths",
+      "Regular expression DoS vulnerabilities",
     ],
   },
   {
-    title: "File & serialization",
+    title: "File handling & uploads",
     bullets: [
-      "Unsafe YAML/Pickle loading",
+      "Unsafe YAML/Pickle loading and file uploads",
       "Path traversal access (../) into file APIs",
-      "Weak cryptographic hash usage",
+      "Unrestricted file upload without validation",
+      "Unsafe deserialization routines",
     ],
   },
 ]
@@ -531,42 +695,129 @@ const severityIcons: Record<Severity, LucideIcon> = {
 
 const getLanguageFromFileName = (fileName: string): Language => {
   const extension = fileName.split(".").pop()?.toLowerCase() ?? ""
+  const basename = fileName.toLowerCase()
+  
+  // Check for specific filenames first
+  if (basename === "dockerfile" || basename.startsWith("dockerfile.")) return "generic"
+  if (basename === "jenkinsfile" || basename === "vagrantfile" || basename === "makefile") return "generic"
+  
   switch (extension) {
     case "js":
     case "jsx":
+    case "mjs":
+    case "cjs":
       return "javascript"
     case "ts":
     case "tsx":
+    case "mts":
+    case "cts":
       return "typescript"
     case "py":
+    case "pyw":
+    case "pyi":
       return "python"
     case "php":
+    case "php3":
+    case "php4":
+    case "php5":
+    case "phtml":
       return "php"
     case "java":
+    case "jsp":
+    case "jspx":
       return "java"
     case "cs":
+    case "csx":
+    case "vb":
       return "csharp"
     case "rb":
+    case "rbw":
+    case "rake":
+    case "gemspec":
       return "ruby"
     case "go":
+    case "mod":
       return "go"
     case "rs":
       return "rust"
     case "swift":
       return "swift"
     case "c":
+    case "h":
       return "c"
     case "cpp":
     case "cc":
     case "cxx":
+    case "c++":
     case "hpp":
+    case "hxx":
+    case "h++":
       return "cpp"
+    case "kt":
+    case "kts":
+      return "kotlin"
+    case "scala":
+    case "sc":
+      return "scala"
+    case "pl":
+    case "pm":
+    case "perl":
+      return "perl"
+    case "lua":
+      return "lua"
+    case "sh":
+    case "bash":
+    case "zsh":
+    case "fish":
+      return "shell"
+    case "ps1":
+    case "psm1":
+    case "psd1":
+      return "powershell"
+    case "bat":
+    case "cmd":
+      return "batch"
+    case "sql":
+    case "mysql":
+    case "pgsql":
+      return "sql"
+    case "xml":
+    case "xsd":
+    case "xsl":
+    case "xslt":
+      return "xml"
+    case "html":
+    case "htm":
+    case "xhtml":
+      return "html"
+    case "css":
+    case "scss":
+    case "sass":
+    case "less":
+      return "css"
     case "json":
-    case "env":
-    case "toml":
+    case "jsonc":
+    case "json5":
+      return "json"
     case "yaml":
     case "yml":
+      return "yaml"
+    case "toml":
+      return "toml"
+    case "ini":
+    case "cfg":
+    case "conf":
+    case "config":
       return "config"
+    case "env":
+    case "environment":
+      return "env"
+    case "tf":
+    case "tfvars":
+    case "hcl":
+      return "terraform"
+    case "dockerfile":
+      return "docker"
     default:
       return "generic"
   }
@@ -642,6 +893,7 @@ export default function ScanPage() {
   const [scanComplete, setScanComplete] = useState(false)
   const [currentFile, setCurrentFile] = useState("")
   const [results, setResults] = useState<ScanResult[]>([])
+  const [folderMode, setFolderMode] = useState(false)
   const [stats, setStats] = useState<ScanStats>({
     filesScanned: 0,
     totalLines: 0,
@@ -827,10 +1079,10 @@ def store_session(resp):
         <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8 text-center">
           <h1 className="mb-3 flex items-center justify-center gap-3 text-3xl font-semibold text-foreground">
             <Shield className="h-8 w-8 text-brand" />
-            SecureAI Basic Scan
+            OneStop-CYworld Basic Scan
           </h1>
           <p className="text-muted-foreground">
-            Upload source files to run fast heuristic checks for high-signal vulnerability smells before escalating to deeper AI analysis.
+            Upload individual files or entire project folders to run fast heuristic checks for high-signal vulnerability patterns across 30+ languages.
           </p>
         </motion.section>
 
@@ -843,10 +1095,36 @@ def store_session(resp):
                     ref={fileInputRef}
                     type="file"
                     multiple
-                    accept=".py,.js,.jsx,.ts,.tsx,.php,.java,.cpp,.c,.h,.cs,.rb,.go,.rs,.swift,.json,.env,.yml,.yaml,.toml"
+                    // @ts-ignore - webkitdirectory is a valid HTML attribute
+                    webkitdirectory={folderMode ? "true" : undefined}
+                    accept={folderMode ? undefined : ".py,.js,.jsx,.ts,.tsx,.php,.java,.cpp,.c,.h,.cs,.rb,.go,.rs,.swift,.json,.env,.yml,.yaml,.toml,.xml,.html,.css,.sql,.sh,.bat,.ps1,.dockerfile,.tf,.hcl"}
                     onChange={handleFileUpload}
                     className="hidden"
                   />
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        id="file-mode"
+                        name="upload-mode"
+                        checked={!folderMode}
+                        onChange={() => setFolderMode(false)}
+                        className="h-4 w-4 text-brand focus:ring-brand"
+                      />
+                      <label htmlFor="file-mode" className="text-sm text-foreground">Upload files</label>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        id="folder-mode"
+                        name="upload-mode"
+                        checked={folderMode}
+                        onChange={() => setFolderMode(true)}
+                        className="h-4 w-4 text-brand focus:ring-brand"
+                      />
+                      <label htmlFor="folder-mode" className="text-sm text-foreground">Upload folder</label>
+                    </div>
+                  </div>
 
                   <motion.button
                     whileHover={{ scale: 1.02 }}
@@ -856,7 +1134,7 @@ def store_session(resp):
                     className="flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-4 py-2 font-medium text-foreground transition-colors hover:bg-card/80 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     <Upload className="h-4 w-4" />
-                    Select source files
+                    {folderMode ? "Select project folder" : "Select source files"}
                   </motion.button>
 
                   <motion.button
@@ -955,7 +1233,7 @@ def store_session(resp):
               {!scanComplete && !isScanning && (
                 <div className="flex flex-col items-center justify-center gap-3 py-16 text-center text-muted-foreground">
                   <ShieldCheck className="h-10 w-10 text-brand" />
-                  <p className="text-sm">Upload files or run the demo scan to surface baseline issues across injections, secrets, transport, and file handling.</p>
+                  <p className="text-sm">Upload individual files or entire project folders to surface baseline issues across injections, secrets, transport, and file handling. Supports 30+ languages and file types.</p>
                 </div>
               )}
 

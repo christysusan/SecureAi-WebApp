@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Scan, Brain, Terminal, ChevronRight, Database, Lock, X } from "lucide-react";
+import { Scan, Brain, Terminal, Database, Lock, Newspaper } from "lucide-react";
 import { Header } from "@/components/layout/header";
 import { TerminalBox } from "@/components/layout/terminal-box";
 
@@ -21,9 +21,9 @@ function BackgroundElements() {
 const technicalFeatures = [
   {
     icon: Scan,
-    title: "SecureAI Basic Scan",
-    description: "Upload code and run client-side heuristics that surface SSRF, command injection, path traversal, XSS, and insecure configuration risks.",
-    metrics: "Detectors: SSRF · Command Injection · XSS · Weak TLS/CORS · Secret Exposure"
+    title: "OneStop-CYworld Basic Scan",
+    description: "Upload individual files or entire project folders for comprehensive static analysis across 30+ languages, detecting injection flaws, secrets, crypto issues, and access control vulnerabilities.",
+    metrics: "Detectors: SQL/NoSQL/LDAP Injection · XXE · Template Injection · JWT 'none' · File Upload · Mass Assignment"
   },
   {
     icon: Brain,
@@ -42,7 +42,13 @@ const technicalFeatures = [
     title: "Password Breach Lookup",
     description: "Check password strength with SHA-1 k-anonymity against Have I Been Pwned while keeping full hashes local and visualising the verification flow.",
     metrics: "Features: Local hashing · HIBP range API · Animated verification trail"
-  }
+  },
+  // {
+  //   icon: Newspaper,
+  //   title: "Security Intelligence Feed",
+  //   description: "Track the latest security incidents and research headlines with automatically refreshed summaries and direct source links.",
+  //   metrics: "Sources: Cybersecurity news APIs · Hourly refresh · Severity tagging"
+  // }
 ];
 
 export default function HomePage() {
@@ -85,7 +91,7 @@ export default function HomePage() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="mb-6 text-4xl font-bold text-foreground md:text-6xl lg:text-7xl"
           >
-            <span className="text-brand">Secure</span>AI-Code
+            <span className="text-brand">OneStop</span>-CYworld
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -93,8 +99,7 @@ export default function HomePage() {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="mx-auto mb-8 max-w-4xl text-xl leading-relaxed text-muted-foreground md:text-2xl"
           >
-            Scan your code for security flaws instantly with regex and AI-powered analysis.
-            Dive into interactive cybersecurity games and learning experiences.    
+            Scan your code for security flaws instantly with regex and AI-powered analysis, then stay informed with curated security intelligence updates.
           </motion.p>
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -174,7 +179,7 @@ export default function HomePage() {
                     <li>• Static Code Analysis</li>
                     <li>• AI Security</li>
                     <li>• Vulnerability Assessment</li>
-                    <li>• Educational Gamification</li>
+                    <li>• Security Intelligence</li>
                   </ul>
                 </div>
                 <div>
@@ -191,7 +196,7 @@ export default function HomePage() {
                   <ul className="space-y-1 text-muted-foreground">
                     <li>• Web Application</li>
                     <li>• Command Line Tool</li>
-                    <li>• Educational Games</li>
+                    <li>• Security Intelligence Feed</li>
                     <li>• Technical Documentation</li>
                   </ul>
                 </div>

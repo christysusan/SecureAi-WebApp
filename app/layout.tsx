@@ -7,8 +7,8 @@ import { Suspense } from "react"
 import { ThemeProvider } from "@/components/theme/theme-provider"
 
 export const metadata: Metadata = {
-  title: "SecureAI-Code Web",
-  description: "Terminal-inspired web UI for cybersecurity scanning and AI assessments",
+  title: "OneStop-CYworld",
+  description: "Terminal-inspired cybersecurity workspace for scanning, AI assessments, and intelligence feeds",
   generator: "v0.app",
 }
 

@@ -80,7 +80,7 @@ export async function POST(req: Request) {
     }
 
     // Prepare temp dir
-    const tmp = mkdtempSync(join(tmpdir(), "secureai-secrets-"))
+  const tmp = mkdtempSync(join(tmpdir(), "onestopcyworld-secrets-"))
     const repoDir = join(tmp, "repo")
 
     // Try using git to clone repository

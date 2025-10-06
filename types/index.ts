@@ -27,13 +27,6 @@ export interface AppState {
     model: string
     analysisDepth: "basic" | "deep"
   }
-  games: {
-    [gameId: string]: {
-      highScore: number
-      completed: boolean
-      achievements: string[]
-    }
-  }
   theme: "dark" | "light"
   sidebarOpen: boolean
   currentPage: string

@@ -425,7 +425,7 @@ export default function AIAssessPage() {
             AI-Assisted Code Review
           </h1>
           <p className="text-muted-foreground">
-            Unlock your encrypted API key, upload a code sample, and let SecureAI surface high-impact vulnerabilities with contextual fixes.
+            Unlock your encrypted API key, upload a code sample, and let OneStop-CYworld surface high-impact vulnerabilities with contextual fixes.
           </p>
         </motion.section>
 

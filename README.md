@@ -1,39 +1,24 @@
 
-# SecureAI-Code Web
+# OneStop-CYworld
 
 
 ---
 
 ## 🚀 Overview
 
-**SecureAI-Code Web** is a modern, terminal-inspired web platform for automated cybersecurity scanning, AI-assisted code review, and hands-on security education through interactive games. It combines static analysis, machine learning, and gamification to help users learn, assess, and improve code security.
+**OneStop-CYworld** is a terminal-inspired security operations workspace that unifies automated scanning, AI-assisted code review, and real-time threat intelligence. It blends static analysis with provider-neutral AI assessments so teams can detect vulnerabilities, triage alerts, and stay ahead of emerging threats from a single pane of glass.
 
 ---
 
 ## 🌟 Features
 
-- **Automated Vulnerability Scanning**: Detect SSRF, command injection, XSS, insecure config, and more.
-- **AI-Assisted Code Review**: Integrate with OpenAI, Anthropic, or Gemini for CWE-mapped vulnerability reports and remediation.
+- **Automated Vulnerability Scanning**: Detect SSRF, command injection, XSS, insecure config, and more with instant heuristics.
+- **AI-Assisted Code Review**: Use OpenAI, Anthropic, or Gemini for CWE-mapped reports and rich remediation guidance.
 - **Dependency Vulnerability Scanner**: Parse manifests (requirements.txt, package.json, go.mod) and check for CVEs via OSV.dev.
-- **Password Breach Lookup**: Check password strength and exposure using Have I Been Pwned (HIBP) API with privacy-preserving k-anonymity.
-- **Interactive Security Games**: Learn cybersecurity concepts through games like CyberSnake Quiz, Password Defense, Phishing Detective, Firewall Defense, Crypto Puzzles, CTF Mini, Threat Hunter Lab, and Incident Response Simulator.
-- **Configurable AI Providers**: Easily switch between AI models and set analysis depth.
+- **Password Breach Lookup**: Test password exposure using Have I Been Pwned (HIBP) with privacy-preserving k-anonymity.
+- **Security Intelligence Feed**: Aggregated advisories from CISA, BleepingComputer, and The Hacker News with 30-minute refreshes.
+- **Configurable AI Providers**: Easily swap models, tune confidence, and work with encrypted API storage.
 - **Modern UI/UX**: Terminal-inspired design, dark/light themes, and responsive layout.
-
----
-
-## 🕹️ Security Games
-
-| Game                     | Description                                                      | Difficulty   |
-|--------------------------|------------------------------------------------------------------|--------------|
-| CyberSnake Quiz          | Learn security through a snake game with technical questions      | Beginner     |
-| Password Defense         | Defend against password attacks by creating stronger passwords    | Intermediate |
-| Phishing Detective       | Analyze emails to spot phishing and social engineering            | Intermediate |
-| Firewall Defense         | Configure firewall rules to block malicious network traffic       | Advanced     |
-| Crypto Puzzles           | Solve encryption challenges and learn cryptographic principles    | Advanced     |
-| CTF Mini                 | Capture-the-flag: find hidden flags in file systems              | Expert       |
-| Threat Hunter Lab        | Inspect logs, flag threats, and defend the SOC dashboard          | Advanced     |
-| Incident Response Sim    | Lead crisis decisions in simulated security incidents             | Expert       |
 
 ---
 
@@ -68,8 +53,7 @@ http://localhost:3000
 - `/api/ai/analyze` — AI-powered code analysis
 - `/api/dependency-scan` — Dependency manifest scanning
 - `/api/pwned` — Password breach lookup (HIBP)
-- `/api/games/[gameId]/score` — Game scoring endpoints
-- `/api/games/leaderboard/[gameId]` — Leaderboards
+- `/api/news` — Security news aggregation (CISA, BleepingComputer, The Hacker News)
 - `/api/scan/start` — Start a new scan
 - `/api/scan/status/[id]` — Scan status
 
