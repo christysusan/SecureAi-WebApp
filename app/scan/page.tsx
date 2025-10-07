@@ -848,6 +848,7 @@ export default function ScanPage() {
   const [currentFile, setCurrentFile] = useState("")
   const [results, setResults] = useState<ScanResult[]>([])
   const [folderMode, setFolderMode] = useState(false)
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
   const [stats, setStats] = useState<ScanStats>({
     filesScanned: 0,
     totalLines: 0,
@@ -863,17 +864,25 @@ export default function ScanPage() {
     const files = event.target.files
     if (!files || files.length === 0) return
 
+    // Store files without scanning yet
+    setUploadedFiles(Array.from(files))
+    setScanComplete(false)
+    setResults([])
+  }
+
+  const startScan = async () => {
+    if (uploadedFiles.length === 0) return
+
     setIsScanning(true)
     setProgress(0)
     setScanComplete(false)
     setResults([])
 
-    const uploads = Array.from(files)
     let allResults: ScanResult[] = []
     let processedFiles = 0
     let totalLines = 0
 
-    for (const file of uploads) {
+    for (const file of uploadedFiles) {
       setCurrentFile(file.name)
 
       try {
@@ -886,7 +895,7 @@ export default function ScanPage() {
       }
 
       processedFiles += 1
-      setProgress((processedFiles / uploads.length) * 100)
+      setProgress((processedFiles / uploadedFiles.length) * 100)
       await new Promise((resolve) => setTimeout(resolve, 120))
     }
 
@@ -896,108 +905,9 @@ export default function ScanPage() {
     setIsScanning(false)
     setScanComplete(true)
     setCurrentFile("")
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ""
-    }
   }
 
-  const startQuickScan = async () => {
-    const demoSources = [
-      {
-        name: "api/routes/user.js",
-        content: `app.post("/login", async (req, res) => {
-  const query = "SELECT * FROM users WHERE email = '" + req.body.email + "'";
-  const result = await db.query(query);
-  res.json(result);
-});
-const token = Math.random().toString(36);
-`,
-      },
-      {
-        name: "services/payment.py",
-        content: `import random
-import hashlib
 
-def build_signature(payload, secret="sk-demo-123"):
-    if DEBUG == True:
-        print("Debug mode enabled")
-    token = secret + str(random.random())
-    return hashlib.md5(token.encode()).hexdigest()
-`,
-      },
-      {
-        name: "legacy/worker.php",
-        content: `<?php
-$awsKey = "AKIAIOSFODNN7EXAMPLE";
-$command = $_GET['cmd'];
-exec($command);
-?>
-`,
-      },
-      {
-        name: "frontend/dashboard.tsx",
-        content: `const html = "<h1>" + userInput + "</h1>";
-document.getElementById("target").innerHTML = html;
-fetch("http://partner.example.com/api")
-`,
-      },
-      {
-        name: "controllers/proxy.js",
-        content: `app.get("/proxy", async (req, res) => {
-  const target = req.query.url;
-  const response = await fetch(target);
-  res.json(await response.json());
-});
-
-app.get("/download", (req, res) => {
-  const file = path.join(__dirname, "uploads", req.query.path);
-  return res.sendFile(file);
-});
-
-app.use(cors({ origin: "*" }));
-`,
-      },
-      {
-        name: "services/client.py",
-        content: `import requests
-
-def forward_payment(url, payload):
-    return requests.post(url, json=payload, verify=False)
-
-def store_session(resp):
-    response = make_response(resp)
-    response.set_cookie("session", "abc123", secure=False)
-    return response
-`,
-      },
-    ]
-
-    setIsScanning(true)
-    setProgress(0)
-    setScanComplete(false)
-    setResults([])
-
-    let aggregated: ScanResult[] = []
-    let totalLines = 0
-
-    for (let i = 0; i < demoSources.length; i += 1) {
-      const source = demoSources[i]
-      setCurrentFile(source.name)
-      const { results: fileResults, totalLines: fileLines } = analyzeContent(source.name, source.content)
-      aggregated = aggregated.concat(fileResults)
-      totalLines += fileLines
-      setProgress(((i + 1) / demoSources.length) * 100)
-      await new Promise((resolve) => setTimeout(resolve, 200))
-    }
-
-    const snapshot = buildStats(aggregated, demoSources.length, totalLines)
-    setStats(snapshot)
-    setResults(aggregated)
-    setIsScanning(false)
-    setScanComplete(true)
-    setCurrentFile("")
-  }
 
   const filteredResults = selectedSeverity === "all" ? results : results.filter((result) => result.severity === selectedSeverity)
 
@@ -1091,15 +1001,21 @@ def store_session(resp):
                     {folderMode ? "Select project folder" : "Select source files"}
                   </motion.button>
 
+                  {uploadedFiles.length > 0 && (
+                    <div className="rounded-lg border border-[#355952]/30 bg-[#355952]/10 px-3 py-2 text-sm text-[#355952]">
+                      {uploadedFiles.length} file{uploadedFiles.length !== 1 ? 's' : ''} selected
+                    </div>
+                  )}
+
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={startQuickScan}
-                    disabled={isScanning}
+                    onClick={startScan}
+                    disabled={isScanning || uploadedFiles.length === 0}
                     className="flex items-center justify-center gap-2 rounded-lg bg-brand px-4 py-2 font-medium text-white transition-colors hover:bg-brand/90 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     <Play className="h-4 w-4" />
-                    Run demo scan
+                    Run Scan
                   </motion.button>
 
                   {/* Secrets scan from GitHub URL */}
