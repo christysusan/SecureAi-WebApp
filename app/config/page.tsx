@@ -298,8 +298,8 @@ export default function ConfigPage() {
                     <div
                       className={`mt-6 rounded-lg border px-4 py-3 text-sm ${
                         statusMessage.type === "success"
-                          ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-700"
-                          : "border-red-500/40 bg-red-500/10 text-red-700"
+                          ? "border-[#355952] bg-[#355952]/10 text-[#355952]"
+                          : "border-[#E37769] bg-[#E37769]/10 text-[#355952]"
                       }`}
                     >
                       {statusMessage.message}
@@ -319,7 +319,7 @@ export default function ConfigPage() {
             <TerminalBox title="How to Get API Keys">
               <div className="grid gap-6 md:grid-cols-3">
                 <div className="text-center">
-                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-lg border border-blue-400/30 bg-blue-400/15 text-blue-600">
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-lg border border-[#355952]/30 bg-[#355952]/10 text-[#355952]">
                     <span className="font-bold">G</span>
                   </div>
                   <h3 className="mb-2 font-semibold text-foreground">Google Gemini</h3>
@@ -331,7 +331,7 @@ export default function ConfigPage() {
                 </div>
                 
                 <div className="text-center">
-                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-lg border border-green-400/30 bg-green-400/15 text-green-600">
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-lg border border-[#E37769]/30 bg-[#E37769]/10 text-[#E37769]">
                     <span className="font-bold">O</span>
                   </div>
                   <h3 className="mb-2 font-semibold text-foreground">OpenAI</h3>
@@ -343,7 +343,7 @@ export default function ConfigPage() {
                 </div>
                 
                 <div className="text-center">
-                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-lg border border-purple-400/30 bg-purple-400/15 text-purple-600">
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-lg border border-[#355952]/40 bg-[#355952]/15 text-[#355952]">
                     <span className="font-bold">C</span>
                   </div>
                   <h3 className="mb-2 font-semibold text-foreground">Anthropic</h3>

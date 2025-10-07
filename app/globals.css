@@ -1,88 +1,48 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
-/* Core palette: 5 colors total */
+/* Clean 3-color palette */
 :root {
-  --brand: #ff8c00; /* primary orange */
-  --bg: oklch(1 0 0); /* main background */
-  --surface: oklch(1 0 0); /* cards and inputs */
-  --text: oklch(0.145 0 0); /* primary text */
-  --accent: oklch(0.97 0 0); /* single accent (success/confirm) */
+  --brand: #355952; /* deep sage green primary */
+  --bg: #FAF6E7; /* warm cream background */
+  --surface: #FAF6E7; /* same as background for seamless look */
+  --text: #355952; /* sage green text */
+  --accent: #E37769; /* coral accent for highlights */
 
   /* map to shadcn tokens */
   --background: var(--bg);
   --foreground: var(--text);
   --card: var(--surface);
-  --card-foreground: var(--card-foreground);
+  --card-foreground: var(--text);
   --popover: var(--surface);
-  --popover-foreground: var(--popover-foreground);
+  --popover-foreground: var(--text);
   --primary: var(--brand);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.24 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325); /* conforms, but visually near brand; used sparingly */
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.74 0 0);
-  --input: oklch(0.74 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --primary-foreground: #FAF6E7;
+  --secondary: #F5F1E4;
+  --secondary-foreground: var(--text);
+  --muted: #F5F1E4;
+  --muted-foreground: #6B7F79;
+  --accent: var(--accent);
+  --accent-foreground: #FAF6E7;
+  --destructive: var(--accent);
+  --destructive-foreground: #FAF6E7;
+  --border: #E8E2D0;
+  --input: #E8E2D0;
+  --ring: var(--brand);
+  --chart-1: var(--brand);
+  --chart-2: var(--accent);
+  --chart-3: #6B7F79;
+  --chart-4: #B8A082;
+  --chart-5: #D4C4A8;
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  --bg: oklch(0.145 0 0); /* main background */
-  --surface: oklch(0.145 0 0); /* cards and inputs */
-  --text: oklch(0.985 0 0); /* primary text */
-  --accent: oklch(0.269 0 0); /* single accent (success/confirm) */
-
-  --background: var(--bg);
-  --foreground: var(--text);
-  --card: var(--surface);
-  --card-foreground: var(--card-foreground);
-  --popover: var(--surface);
-  --popover-foreground: var(--popover-foreground);
-  --primary: var(--brand);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723); /* conforms, but visually near brand; used sparingly */
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--text);
+  --sidebar-primary: var(--brand);
+  --sidebar-primary-foreground: #FAF6E7;
+  --sidebar-accent: #F5F1E4;
+  --sidebar-accent-foreground: var(--text);
+  --sidebar-border: #E8E2D0;
+  --sidebar-ring: var(--brand);
 }
 
 @theme inline {

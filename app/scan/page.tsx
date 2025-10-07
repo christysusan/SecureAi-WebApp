@@ -217,15 +217,15 @@ function GitHubSecretsScan() {
           <button onClick={() => download("sarif")} className="rounded border border-border bg-surface px-2 py-1 text-xs">Download SARIF</button>
         </div>
       )}
-      {error && <div className="rounded border border-red-300 bg-red-50 p-2 text-xs text-red-700">{error}</div>}
+      {error && <div className="rounded border border-[#E37769] bg-[#E37769]/10 p-2 text-xs text-[#355952]">{error}</div>}
       {hasScanned && !error && results.length === 0 && (
-        <div className="rounded border border-green-300 bg-green-50 p-2 text-xs text-green-700">
+        <div className="rounded border border-[#355952] bg-[#355952]/10 p-2 text-xs text-[#355952]">
           No secrets found in the scanned scope{includeHistory ? " (including recent history)" : " (shallow scan)"}.
           {usedGitleaks && (
-            <span className="ml-1 text-green-800/80">Scanner: Gitleaks</span>
+            <span className="ml-1 text-[#355952]/80">Scanner: Gitleaks</span>
           )}
           {typeof durationMs === "number" && (
-            <span className="ml-1 text-green-800/80">• Duration: {Math.max(1, Math.round(durationMs/1000))}s</span>
+            <span className="ml-1 text-[#355952]/80">• Duration: {Math.max(1, Math.round(durationMs/1000))}s</span>
           )}
         </div>
       )}
@@ -611,78 +611,32 @@ const detectors: Detector[] = [
   },
 ]
 
-const coverageAreas: Array<{ title: string; bullets: string[] }> = [
-  {
-    title: "Injection safeguards",
-    bullets: [
-      "Dynamic code execution (eval) and template injection",
-      "SQL/NoSQL/LDAP string concatenation vulnerabilities",
-      "OS command execution primitives",
-      "XML External Entity (XXE) attacks",
-    ],
-  },
-  {
-    title: "Secrets & authentication",
-    bullets: [
-      "Hardcoded credentials and API keys",
-      "AWS-style access tokens and JWT 'none' algorithms",
-      "Debug flags and insecure cookie attributes",
-      "Information disclosure in logs and errors",
-    ],
-  },
-  {
-    title: "Web security & access control",
-    bullets: [
-      "DOM XSS sinks and server-side template injection",
-      "Wildcard CORS policies and open redirects",
-      "Server-side request forgery patterns",
-      "Insecure direct object references and mass assignment",
-    ],
-  },
-  {
-    title: "Data transport & crypto",
-    bullets: [
-      "Plain HTTP endpoints in production code",
-      "TLS verification disabled on HTTP clients",
-      "Weak randomness and cryptographic key lengths",
-      "Regular expression DoS vulnerabilities",
-    ],
-  },
-  {
-    title: "File handling & uploads",
-    bullets: [
-      "Unsafe YAML/Pickle loading and file uploads",
-      "Path traversal access (../) into file APIs",
-      "Unrestricted file upload without validation",
-      "Unsafe deserialization routines",
-    ],
-  },
-]
+
 
 const severityStyles: Record<Severity, { accent: string; badge: string; button: string; icon: string }> = {
   critical: {
-    accent: "ring-1 ring-red-200 dark:ring-red-500/40",
-    badge: "border border-red-500/40 bg-red-500/15 text-red-700 dark:text-red-200",
-    button: "bg-red-500 text-white hover:bg-red-400",
-    icon: "text-red-600 dark:text-red-300",
+    accent: "ring-1 ring-red-200",
+    badge: "border border-red-400 bg-red-50 text-red-700",
+    button: "bg-[#E37769] text-[#FAF6E7] hover:bg-[#E37769]/90",
+    icon: "text-[#E37769]",
   },
   high: {
-    accent: "ring-1 ring-orange-200 dark:ring-orange-500/40",
-    badge: "border border-orange-500/40 bg-orange-500/15 text-orange-700 dark:text-orange-200",
-    button: "bg-orange-500 text-white hover:bg-orange-400",
-    icon: "text-orange-500 dark:text-orange-200",
+    accent: "ring-1 ring-red-200",
+    badge: "border border-[#E37769] bg-[#E37769]/10 text-[#355952]",
+    button: "bg-[#E37769] text-[#FAF6E7] hover:bg-[#E37769]/90",
+    icon: "text-[#E37769]",
   },
   medium: {
-    accent: "ring-1 ring-amber-200 dark:ring-amber-500/40",
-    badge: "border border-amber-500/40 bg-amber-500/15 text-amber-700 dark:text-amber-200",
-    button: "bg-amber-500 text-white hover:bg-amber-400",
-    icon: "text-amber-500 dark:text-amber-200",
+    accent: "ring-1 ring-amber-200",
+    badge: "border border-[#355952]/30 bg-[#355952]/5 text-[#355952]",
+    button: "bg-[#355952] text-[#FAF6E7] hover:bg-[#355952]/90",
+    icon: "text-[#355952]",
   },
   low: {
-    accent: "ring-1 ring-blue-200 dark:ring-blue-500/40",
-    badge: "border border-blue-500/40 bg-blue-500/15 text-blue-700 dark:text-blue-200",
-    button: "bg-blue-500 text-white hover:bg-blue-400",
-    icon: "text-blue-500 dark:text-blue-200",
+    accent: "ring-1 ring-blue-200",
+    badge: "border border-[#355952]/20 bg-[#355952]/5 text-[#355952]/80",
+    button: "bg-[#355952]/70 text-[#FAF6E7] hover:bg-[#355952]/80",
+    icon: "text-[#355952]/70",
   },
 }
 
@@ -1171,27 +1125,6 @@ def store_session(resp):
               </div>
             </TerminalBox>
 
-            <TerminalBox title="Basic scan coverage">
-              <div className="space-y-4 text-sm">
-                {coverageAreas.map((area) => (
-                  <div key={area.title} className="rounded-lg border border-border/60 bg-card/70 p-3">
-                    <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{area.title}</h3>
-                    <ul className="mt-2 space-y-1 text-xs text-muted-foreground">
-                      {area.bullets.map((item) => (
-                        <li key={item} className="flex items-start gap-2">
-                          <span className="mt-1 h-1.5 w-1.5 rounded-full bg-brand/70" aria-hidden />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-                <p className="text-xs text-muted-foreground">
-                  Tip: For deeper semantic review (business logic, framework nuances, multi-file flows) jump to the AI Assess tab after this baseline pass.
-                </p>
-              </div>
-            </TerminalBox>
-
             {scanComplete && (
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
                 <TerminalBox title="Basic scan metrics">
@@ -1347,7 +1280,7 @@ def store_session(resp):
 
                     {filteredResults.length === 0 && (
                       <div className="flex flex-col items-center justify-center gap-3 py-12 text-center text-muted-foreground">
-                        <CheckCircle2 className="h-10 w-10 text-emerald-600" />
+                        <CheckCircle2 className="h-10 w-10 text-[#355952]" />
                         <p className="text-sm">No findings for the selected severity. Great job!</p>
                       </div>
                     )}

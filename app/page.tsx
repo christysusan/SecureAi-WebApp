@@ -11,9 +11,9 @@ import { TerminalBox } from "@/components/layout/terminal-box";
 function BackgroundElements() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <div className="absolute top-20 left-8 w-64 h-64 border border-amber-500/10 rounded-lg rotate-12 opacity-30" />
-      <div className="absolute bottom-32 right-16 w-48 h-48 border border-amber-500/5 rounded-lg -rotate-6 opacity-20" />
-      <div className="absolute top-1/2 left-1/4 w-2 h-32 bg-gradient-to-b from-amber-500/20 to-transparent" />
+      <div className="absolute top-20 left-8 w-64 h-64 border border-[#355952]/20 rounded-lg rotate-12 opacity-40" />
+      <div className="absolute bottom-32 right-16 w-48 h-48 border border-[#E37769]/20 rounded-lg -rotate-6 opacity-30" />
+      <div className="absolute top-1/2 left-1/4 w-2 h-32 bg-gradient-to-b from-[#355952]/20 to-transparent" />
     </div>
   );
 }

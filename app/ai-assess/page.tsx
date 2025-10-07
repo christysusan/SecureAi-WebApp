@@ -80,28 +80,28 @@ interface AIAnalysisResponse {
 
 const severityStyles: Record<Severity, { accent: string; badge: string; icon: string; button: string }> = {
   critical: {
-    accent: "ring-1 ring-red-200 dark:ring-red-500/40",
-    badge: "border border-red-500/50 bg-red-500/10 text-red-700 dark:text-red-200",
-    icon: "text-red-600 dark:text-red-300",
-    button: "bg-red-500 text-white hover:bg-red-400",
+    accent: "ring-1 ring-red-200",
+    badge: "border border-[#E37769] bg-[#E37769]/15 text-[#355952]",
+    icon: "text-[#E37769]",
+    button: "bg-[#E37769] text-[#FAF6E7] hover:bg-[#E37769]/90",
   },
   high: {
-    accent: "ring-1 ring-orange-200 dark:ring-orange-500/40",
-    badge: "border border-orange-500/50 bg-orange-500/10 text-orange-700 dark:text-orange-200",
-    icon: "text-orange-500 dark:text-orange-200",
-    button: "bg-orange-500 text-white hover:bg-orange-400",
+    accent: "ring-1 ring-orange-200",
+    badge: "border border-[#E37769]/70 bg-[#E37769]/10 text-[#355952]",
+    icon: "text-[#E37769]",
+    button: "bg-[#E37769] text-[#FAF6E7] hover:bg-[#E37769]/90",
   },
   medium: {
-    accent: "ring-1 ring-amber-200 dark:ring-amber-500/40",
-    badge: "border border-amber-500/50 bg-amber-500/10 text-amber-700 dark:text-amber-200",
-    icon: "text-amber-500 dark:text-amber-200",
-    button: "bg-amber-500 text-white hover:bg-amber-400",
+    accent: "ring-1 ring-amber-200",
+    badge: "border border-[#355952]/30 bg-[#355952]/5 text-[#355952]",
+    icon: "text-[#355952]",
+    button: "bg-[#355952] text-[#FAF6E7] hover:bg-[#355952]/90",
   },
   low: {
-    accent: "ring-1 ring-blue-200 dark:ring-blue-500/40",
-    badge: "border border-blue-500/50 bg-blue-500/10 text-blue-700 dark:text-blue-200",
-    icon: "text-blue-500 dark:text-blue-200",
-    button: "bg-blue-500 text-white hover:bg-blue-400",
+    accent: "ring-1 ring-blue-200",
+    badge: "border border-[#355952]/20 bg-[#355952]/5 text-[#355952]/80",
+    icon: "text-[#355952]/70",
+    button: "bg-[#355952]/70 text-[#FAF6E7] hover:bg-[#355952]/80",
   },
 }
 
@@ -438,9 +438,9 @@ export default function AIAssessPage() {
                 )}
 
                 {configStatus === "missing" && (
-                  <div className="space-y-3 rounded-lg border border-red-500/40 bg-red-500/10 p-4 text-red-700">
+                  <div className="space-y-3 rounded-lg border border-[#E37769] bg-[#E37769]/10 p-4 text-[#355952]">
                     <p className="font-medium">No encrypted API key found.</p>
-                    <p className="text-xs text-red-700/80">
+                    <p className="text-xs text-[#355952]/80">
                       Head to the Config tab, enable AI analysis, and store your key with a passphrase before running assessments.
                     </p>
                   </div>
@@ -528,8 +528,8 @@ export default function AIAssessPage() {
                       <div
                         className={`rounded-lg border px-3 py-2 text-xs ${
                           statusMessage.type === "success"
-                            ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-700"
-                            : "border-red-500/40 bg-red-500/10 text-red-700"
+                            ? "border-[#355952] bg-[#355952]/10 text-[#355952]"
+                            : "border-[#E37769] bg-[#E37769]/10 text-[#355952]"
                         }`}
                       >
                         {statusMessage.message}
@@ -683,7 +683,7 @@ export default function AIAssessPage() {
 
                     {filteredResults.length === 0 && (
                       <div className="flex flex-col items-center justify-center gap-3 py-16 text-center text-muted-foreground">
-                        <CheckCircle2 className="h-10 w-10 text-emerald-600" />
+                        <CheckCircle2 className="h-10 w-10 text-[#355952]" />
                         <p className="text-sm">No findings for the selected severity. You&apos;re in great shape!</p>
                       </div>
                     )}

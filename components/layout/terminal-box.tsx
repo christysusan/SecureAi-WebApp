@@ -13,19 +13,19 @@ export function TerminalBox({
   return (
     <section
       className={cn(
-        "rounded-md border border-border bg-surface shadow-[0_0_0_1px_rgba(255,140,0,0.05)_inset] overflow-hidden",
+        "rounded-lg border border-[#E8E2D0] bg-surface shadow-sm overflow-hidden",
         className,
       )}
       aria-label={title}
     >
       {title ? (
-        <div className="px-3 py-2 font-mono text-xs text-foreground/80 bg-surface/80 border-b border-border">
-          <span className="text-brand">{"┌ "}</span>
+        <div className="px-4 py-3 font-mono text-sm text-[#355952]/70 bg-[#F5F1E4] border-b border-[#E8E2D0]">
+          <span className="text-[#355952] font-medium">{"┌ "}</span>
           <span>{title}</span>
-          <span className="text-brand">{" ┐"}</span>
+          <span className="text-[#355952] font-medium">{" ┐"}</span>
         </div>
       ) : null}
-      <div className="p-4">{children}</div>
+      <div className="p-6">{children}</div>
     </section>
   )
 }
