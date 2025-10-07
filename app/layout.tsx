@@ -10,6 +10,17 @@ export const metadata: Metadata = {
   title: "OneStop-CYworld",
   description: "Terminal-inspired cybersecurity workspace for scanning, AI assessments, and intelligence feeds",
   generator: "v0.app",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  manifest: "/site.webmanifest",
 }
 
 const inter = Inter({
@@ -31,13 +42,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrains.variable} antialiased`}>
-      <head>
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
-      </head>
       <body className="font-sans bg-background text-foreground min-h-dvh">
         <ThemeProvider>
           <Suspense fallback={<div>Loading...</div>}>
