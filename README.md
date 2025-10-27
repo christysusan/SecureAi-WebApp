@@ -125,13 +125,7 @@ const encrypted = await encryptApiKey(apiKey, passphrase)
 // Format: { salt: base64, iv: base64, cipher: base64 }
 ```
 
-### Terminal-Inspired UI System
-```tsx
-// Consistent styling with TerminalBox wrapper component
-<TerminalBox title="Security Scan">
-  {/* Content with terminal aesthetic */}
-</TerminalBox>
-```
+
 
 ---
 
