@@ -139,39 +139,6 @@ const encrypted = await encryptApiKey(apiKey, passphrase)
 
 ---
 
-## 🤝 Contributing
-
-We welcome contributions! Please feel free to submit issues and pull requests.
-
-### Development Guidelines
-1. Follow the existing code style and TypeScript strict mode
-2. Use the established component patterns (TerminalBox, severity styling)
-3. Add CWE mappings for new vulnerability detectors
-4. Test with multiple AI providers when applicable
-5. Update documentation for new features
-
-### Adding Vulnerability Detectors
-```typescript
-// Add to detectors array in app/scan/page.tsx
-{
-  id: "unique-detector-id",
-  type: "Vulnerability Category",
-  severity: "critical" | "high" | "medium" | "low",
-  rule: "CWE-XXX", // Common Weakness Enumeration ID
-  message: "Clear description of the issue",
-  remediation: "Specific fix instructions",
-  appliesTo: ["javascript", "python"], // Supported languages
-  test: ({ line, language, fileName }) => boolean // Detection logic
-}
-```
-
----
-
-## � License
-
-This project is for research and educational use. Please review the license before commercial deployment.
-
----
 
 ## 🌟 Acknowledgments
 
@@ -182,6 +149,6 @@ This project is for research and educational use. Please review the license befo
 
 ---
 
-**Built with ❤️ for the cybersecurity community**
+
 
 
