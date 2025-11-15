@@ -72,7 +72,7 @@ element.innerHTML = userInput; // ❌ Detected
 
 ## Installation
 
-1. Download the `.vsix` file from [OneStop CYworld website](https://onestop-cyworld.com)
+1. Download the `.vsix` file from [OneStop CYworld website](https://onestop-cyworld.vercel.app/)
 2. Open VS Code
 3. Go to Extensions (Ctrl+Shift+X)
 4. Click `...` (More Actions) → `Install from VSIX...`
@@ -81,7 +81,7 @@ element.innerHTML = userInput; // ❌ Detected
 ## About
 
 Created as part of the OneStop CYworld security platform.
-Visit [https://onestop-cyworld.com](https://onestop-cyworld.com) for more security tools.
+Visit [site](https://onestop-cyworld.vercel.app/) for more security tools.
 
 ## License
 
