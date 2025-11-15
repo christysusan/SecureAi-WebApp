@@ -1,0 +1,65 @@
+{
+  "name": "onestop-cyworld-guardian",
+  "displayName": "OneStop CYworld Guardian",
+  "description": "Real-time security vulnerability detection as you code",
+  "version": "1.0.0",
+  "publisher": "onestop-cyworld",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Linters",
+    "Programming Languages"
+  ],
+  "keywords": [
+    "security",
+    "vulnerability",
+    "linter",
+    "cybersecurity",
+    "sast"
+  ],
+  "activationEvents": [
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:python",
+    "onLanguage:java",
+    "onLanguage:php",
+    "onLanguage:go"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "onestop-cyworld.scanFile",
+        "title": "OneStop: Scan Current File"
+      },
+      {
+        "command": "onestop-cyworld.scanWorkspace",
+        "title": "OneStop: Scan Entire Workspace"
+      }
+    ],
+    "configuration": {
+      "title": "OneStop CYworld Guardian",
+      "properties": {
+        "onestop-cyworld.enableRealTime": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable real-time security scanning as you type"
+        },
+        "onestop-cyworld.severity": {
+          "type": "string",
+          "default": "all",
+          "enum": ["all", "critical", "high", "medium"],
+          "description": "Minimum severity level to show"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@vscode/vsce": "^2.22.0"
+  }
+}

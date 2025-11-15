@@ -1,11 +1,34 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Dependencies
+node_modules/
+**/node_modules/
 
-# dependencies
-/node_modules
+# VSCode Extension
+vscode-extension/node_modules/
+vscode-extension/out/
+vscode-extension/*.vsix
+vscode-extension/.vscode-test/
 
-# next.js
-/.next/
-/out/
+# Next.js
+.next/
+out/
+
+# Build outputs
+dist/
+build/
+*.vsix
+
+# Environment
+.env
+.env.local
+.env*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
 
 # production
 /build
@@ -16,8 +39,7 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files
-.env*
+
 
 # vercel
 .vercel

@@ -3,17 +3,38 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Scan, Brain, Terminal, Database, Lock, Newspaper } from "lucide-react";
+import { Scan, Brain, Terminal, Database, Lock, Newspaper, Download, Code, Shield } from "lucide-react";
 import { Header } from "@/components/layout/header";
 import { TerminalBox } from "@/components/layout/terminal-box";
 
-// Minimal animated background elements
+// Animated background elements with smooth motion
 function BackgroundElements() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <div className="absolute top-20 left-8 w-64 h-64 border border-[#355952]/20 rounded-lg rotate-12 opacity-40" />
-      <div className="absolute bottom-32 right-16 w-48 h-48 border border-[#E37769]/20 rounded-lg -rotate-6 opacity-30" />
-      <div className="absolute top-1/2 left-1/4 w-2 h-32 bg-gradient-to-b from-[#355952]/20 to-transparent" />
+      <motion.div
+        initial={{ opacity: 0, rotate: 0, scale: 0.8 }}
+        animate={{ opacity: 0.4, rotate: 12, scale: 1 }}
+        transition={{ duration: 2, ease: "easeOut" }}
+        className="absolute top-20 left-8 w-64 h-64 border border-[#355952]/20 rounded-lg"
+      />
+      <motion.div
+        initial={{ opacity: 0, rotate: 0, scale: 0.8 }}
+        animate={{ opacity: 0.3, rotate: -6, scale: 1 }}
+        transition={{ duration: 2.5, ease: "easeOut", delay: 0.3 }}
+        className="absolute bottom-32 right-16 w-48 h-48 border border-[#E37769]/20 rounded-lg"
+      />
+      <motion.div
+        initial={{ height: 0, opacity: 0 }}
+        animate={{ height: 128, opacity: 1 }}
+        transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
+        className="absolute top-1/2 left-1/4 w-2 bg-gradient-to-b from-[#355952]/20 to-transparent"
+      />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 0.15, 0] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/3 right-1/3 w-32 h-32 rounded-full bg-[#E37769]/10 blur-3xl"
+      />
     </div>
   );
 }
@@ -159,8 +180,111 @@ export default function HomePage() {
           </TerminalBox>
         </motion.div>
 
+        {/* VSCode Extension Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 2.4, duration: 0.8 }}
+          className="mb-12"
+        >
+          <TerminalBox title="VSCode Extension - Code as You Type">
+            <div className="rounded-xl border border-border bg-gradient-to-br from-card to-secondary/30 p-8 shadow-lg">
+              <div className="grid gap-8 md:grid-cols-2">
+                {/* Left side - Description */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 2.6, duration: 0.6 }}
+                >
+                  <div className="mb-4 flex items-center gap-3">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-xl border-2 border-brand bg-brand/20 text-brand">
+                      <Code className="h-7 w-7" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-foreground">OneStop Guardian</h3>
+                      <p className="text-sm text-muted-foreground">VSCode Extension v1.0.0</p>
+                    </div>
+                  </div>
+
+                  <p className="mb-6 leading-relaxed text-muted-foreground">
+                    Get real-time security warnings directly in your code editor. Detects hardcoded secrets,
+                    SQL injection patterns, XSS vulnerabilities, and more as you type.
+                  </p>
+
+                  <div className="mb-6 space-y-3">
+                    <div className="flex items-start gap-3">
+                      <Shield className="h-5 w-5 flex-shrink-0 text-brand mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-foreground">10+ Security Patterns</h4>
+                        <p className="text-sm text-muted-foreground">CWE-mapped detections including secrets, injection flaws, and weak crypto</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Terminal className="h-5 w-5 flex-shrink-0 text-brand mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-foreground">Multi-Language Support</h4>
+                        <p className="text-sm text-muted-foreground">JavaScript, TypeScript, Python, Java, PHP, and Go</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <motion.a
+                    href="/onestop-cyworld-guardian-1.0.0.vsix"
+                    download
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="inline-flex items-center gap-2 rounded-lg bg-brand px-6 py-3 font-semibold text-white shadow-lg transition-all hover:bg-brand/90 hover:shadow-xl"
+                  >
+                    <Download className="h-5 w-5" />
+                    Download Extension (.vsix)
+                  </motion.a>
+                </motion.div>
+
+                {/* Right side - Installation Guide */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 2.8, duration: 0.6 }}
+                  className="rounded-lg border border-border bg-card/50 p-6"
+                >
+                  <h4 className="mb-4 font-semibold text-foreground">Installation Steps</h4>
+                  <ol className="space-y-3 text-sm text-muted-foreground">
+                    <li className="flex gap-3">
+                      <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-brand/20 text-xs font-bold text-brand">1</span>
+                      <span>Download the <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.vsix</code> file above</span>
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-brand/20 text-xs font-bold text-brand">2</span>
+                      <span>Open Visual Studio Code</span>
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-brand/20 text-xs font-bold text-brand">3</span>
+                      <span>Go to Extensions (Ctrl+Shift+X or Cmd+Shift+X)</span>
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-brand/20 text-xs font-bold text-brand">4</span>
+                      <span>Click <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">...</code> (More Actions) → Install from VSIX...</span>
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-brand/20 text-xs font-bold text-brand">5</span>
+                      <span>Select the downloaded file and start coding securely!</span>
+                    </li>
+                  </ol>
+
+                  <div className="mt-6 rounded-lg border border-accent/30 bg-accent/10 p-4">
+                    <p className="text-xs text-muted-foreground">
+                      <strong className="text-accent">Note:</strong> The extension scans files in real-time.
+                      You can configure severity levels and toggle real-time scanning in settings.
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </TerminalBox>
+        </motion.div>
+
         {/* Research Information */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 3.0, duration: 0.8 }}
