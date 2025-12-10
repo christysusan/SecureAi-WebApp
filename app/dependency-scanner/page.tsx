@@ -96,7 +96,8 @@ export default function DependencyScannerPage() {
       const response = await fetch("/api/dependency-scan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: manifestType, content }),
+        // body: JSON.stringify({ type: manifestType, content }),
+        body: JSON.stringify({ manifestType, content }),
       })
 
       if (!response.ok) throw new Error("Scan failed")
