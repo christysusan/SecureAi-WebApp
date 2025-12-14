@@ -17,39 +17,16 @@
 - **Password Breach Lookup**: Test password exposure using Have I Been Pwned (HIBP) with privacy-preserving k-anonymity
 - **Security Intelligence Feed**: Real-time cybersecurity news aggregation from multiple sources with automatic refresh
 - **Encrypted API Storage**: Client-side AES-GCM encryption for API keys with secure passphrase-based decryption
-- **Terminal-Inspired UI**: Dark/light themes, monospace typography, and command-line aesthetic
-- **GitHub Secrets Scanning**: Repository analysis for exposed credentials using Gitleaks integration
 
----
-
-## 🔍 Vulnerability Detection Coverage
-
-### Advanced Detectors (20+ Categories)
-- **Injection Attacks**: SQL/NoSQL/LDAP injection, OS command injection, XXE, server-side template injection
-- **Authentication & Secrets**: Hardcoded credentials, AWS keys, JWT 'none' algorithm, insecure cookies
-- **Web Security**: XSS, SSRF, open redirects, CORS misconfigurations, insecure direct object references
-- **Cryptography**: Weak algorithms (MD5/SHA1), weak key lengths, insecure randomness
-- **File Handling**: Path traversal, unrestricted file uploads, unsafe deserialization
-- **Access Control**: Mass assignment vulnerabilities, missing authorization checks
-- **Infrastructure**: TLS verification disabled, debug flags in production, regex DoS
-
-### Supported Languages & File Types (30+)
-- **Programming**: JavaScript/TypeScript, Python, Java, C#, PHP, Ruby, Go, Rust, Swift, C/C++, Kotlin, Scala, Perl, Lua
-- **Scripts**: Shell (bash/zsh), PowerShell, Batch files
-- **Configuration**: JSON, YAML, TOML, XML, environment files
-- **Web**: HTML, CSS, SQL
-- **Infrastructure**: Terraform, Docker, Makefiles
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 15.5.4, React 19.1.0, TypeScript (strict mode)
-- **UI Components**: Tailwind CSS v4, Radix UI primitives, Framer Motion animations, Lucide icons
-- **State Management**: Zustand 5.0.8 (flat state structure)
-- **API Integration**: Multi-provider AI abstraction, Edge/Node.js runtimes
+- **Framework**: Next.js , TypeScript
+- **State Management**: Zustand 5.0.8 
 - **Security APIs**: OSV.dev (CVE lookup), Have I Been Pwned (k-anonymity), RSS aggregation
-- **Development**: ESLint, PostCSS, Vercel Analytics
+- **Development**:  Vercel Analytics
 
 ---
 
@@ -84,7 +61,6 @@ http://localhost:3000
 - `POST /api/dependency-scan` — Dependency vulnerability scanning via OSV.dev
 - `GET /api/news` — Security news aggregation with RSS parsing
 - `POST /api/pwned` — Password breach lookup with k-anonymity
-- `POST /api/secrets/scan` — GitHub repository secrets scanning
 
 ### Utility APIs
 - `GET /api/scan/start` — Initialize static analysis scan
@@ -101,10 +77,6 @@ http://localhost:3000
 - **`/pass-strength`** — Password breach checking with HIBP integration
 - **`/news`** — Real-time cybersecurity intelligence feed
 - **`/config`** — AI provider configuration and API key management
-
-### Documentation
-- **`/docs`** — In-application documentation and guides
-- **`/docs/tui`** — Terminal UI integration instructions
 
 ---
 
@@ -143,7 +115,6 @@ const encrypted = await encryptApiKey(apiKey, passphrase)
 ## 🌟 Acknowledgments
 
 - **Security Data**: OSV.dev, Have I Been Pwned, CISA
-- **AI Providers**: OpenAI, Anthropic, Google Gemini
 - **UI Components**: Radix UI, Tailwind CSS, Framer Motion
 - **Icons**: Lucide React
 
